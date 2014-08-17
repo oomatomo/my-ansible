@@ -1,0 +1,38 @@
+---
+- name: common packages installed
+  yum: name={{item}} state=installed
+  with_items:
+    - vim
+    - git
+    - svn
+    - wget
+    - curl
+    - gcc
+    - make
+    - zsh
+    - ctags
+    - vixie-cron
+    - glances
+  tags: centos-packages
+
+- name: middleware packages installed
+  yum: name={{item}} state=installed
+  with_items:
+    - nginx
+    - redis
+    - memcached
+    - docker-io
+  tags: centos-packages
+
+- name: rails packages
+  yum: name={{item}} state=installed
+  with_items:
+    - libxml2-devel
+    - openssl-devel
+    - libnotify
+    - libicu-devel
+    - libjpeg-devel
+    - libpng-devel
+    - ImageMagick
+    - ImageMagick-devel
+  tags: centos-packages

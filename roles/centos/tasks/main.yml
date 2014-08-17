@@ -1,0 +1,7 @@
+---
+- include: epel.yml
+- include: packages.yml
+- include: tmux.yml
+- include: perl.yml
+- include: ruby.yml
+- include: nodejs.yml
