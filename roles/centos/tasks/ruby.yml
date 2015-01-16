@@ -1,11 +1,11 @@
 ---
 - name: install rbenv
   git: repo=https://github.com/sstephenson/rbenv.git
-        dest=/home/vagrant/.rbenv
+        dest=~/.rbenv
 
 - name: install rbenv-build
   git: repo=https://github.com/sstephenson/rbenv-build.git
-        dest=/home/vagrant/.rbenv/plugins/ruby-build
+        dest=~/.rbenv/plugins/ruby-build
 
 - name: install ruby {{ ruby_version }}
   shell: export PATH="$HOME/.rbenv/bin:$PATH" && eval "$(rbenv init -)" && rbenv install {{ ruby_version }}

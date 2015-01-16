@@ -13,6 +13,7 @@
     - ctags
     - vixie-cron
     - glances
+    - samba
   tags: centos-packages
 
 - name: middleware packages installed
