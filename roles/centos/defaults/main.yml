@@ -2,5 +2,5 @@
 user: "vagrant"
 libevent_version: "2.0.21-stable"
 tmux_version: "1.8"
-ruby_version: "2.0.0-p353"
+ruby_version: "2.1.5"
 perl_version: "5.14.1"

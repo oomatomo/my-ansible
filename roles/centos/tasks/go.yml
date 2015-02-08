@@ -1,0 +1,9 @@
+---
+
+- name: download go
+  get_url: url=https://storage.googleapis.com/golang/go1.4.1.linux-amd64.tar.gz dest=/var/tmp/go-1.4.1.tar.gz
+  tags: centos-go
+
+- name: extract libevent
+  shell: tar xfC /var/tmp/go-1.4.1.tar.gz /usr/local/
+  tags: centos-go

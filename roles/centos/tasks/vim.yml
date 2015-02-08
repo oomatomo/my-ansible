@@ -1,0 +1,28 @@
+---
+- name: remove vim package
+  yum: name=vim state=absent
+
+- name: vim package installed
+  yum: name={{item}} state=installed
+  with_items:
+    - mercurial
+    - ncurses-devel
+    - gtk2-devel
+    - atk-devel
+    - libX11-devel
+    - libXt-devel
+    - lua-devel
+  tags: centos-vim
+
+- name: download vim
+  shell: hg clone https://vim.googlecode.com/hg/ /usr/local/src/vim
+#  get_url: url=https://github.com/libevent/libevent/archive/release-{{libevent_version}}.tar.gz dest=/var/tmp/libevent-{{libevent_version}}.tar.gz
+  tags: centos-vim
+
+- name: configure vim
+  shell: cd /usr/local/src/vim && ./configure --enable-multibyte --with-features=huge --enable-cscope --enable-gui=gtk2 --disable-selinux --prefix=/usr/local --enable-xim --enable-fontset --enable-gpm --enable-rubyinterp --with-python-config-dir=/usr/lib/python2.6/config --enable-luainterp=yes --with-lua-prefix=/usr
+  tags: centos-vim
+
+- name: make install vim
+  shell: cd /usr/local/src/vim && make && make install
+  tags: centos-vim
