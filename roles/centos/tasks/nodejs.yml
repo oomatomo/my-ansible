@@ -1,6 +1,70 @@
 ---
-- name: install nodebrew
-  command: curl -L git.io/nodebrew | perl - setup
+- name: install perl
+  yum: name={{ item }} state=present
+  with_items:
+    - perl
+  sudo: yes
+  tags:
+    - package
+    - nodejs
 
-- name: install nodejs from binary
-  command: export PATH=$HOME/.nodebrew/current/bin:$PATH && nodebrew install-binary stable
+- name: download nodebrew
+  get_url: url="http://git.io/nodebrew" dest=~/
+  tags:
+    - nodejs
+
+- name: stat nodebrew
+  stat: path="~/nodebrew"
+  register: nodebrew_stat
+  tags:
+    - nodejs
+
+- name: move nodebrew to src
+  command: "mv /home/hermes/nodebrew /usr/local/src"
+  when: nodebrew_stat.stat.md5 is defined
+  sudo: yes
+  tags:
+    - nodejs
+
+- name: "Check if {{ nodejs_version }} is installed"
+  shell: "nodebrew list | grep {{ nodejs_version }}"
+  register: nodejs_check_install
+  changed_when: False
+  ignore_errors: True
+  tags:
+    - nodejs
+
+- name: install nodebrew
+  shell: perl /usr/local/src/nodebrew setup
+  when: nodejs_check_install|failed
+  tags:
+    - nodejs
+
+- name: add nodebrew path to shell
+  lineinfile: >
+    create=yes
+    dest="~/.bashrc"
+    line='export PATH="$HOME"/.nodebrew/current/bin:"$PATH"'
+  tags:
+    - nodejs
+
+- name: install nodebrew {{ nodejs_version }}
+  shell: nodebrew install-binary v{{ nodejs_version }}
+  when: nodejs_check_install|failed
+  tags:
+    - nodejs
+
+- name: check nodebrew current version is {{ nodejs_version }}
+  shell: "nodebrew ls | grep current | grep {{ nodejs_version }}"
+  register: is_used_current_version
+  changed_when: False
+  ignore_errors: True
+  tags:
+   - nodejs
+
+- name: use {{ nodejs_version }}
+  shell: nodebrew use v{{ nodejs_version }}
+  when: is_used_current_version|failed
+  changed_when: False
+  tags:
+    - nodejs
