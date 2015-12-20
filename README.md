@@ -1,5 +1,6 @@
 # おれおれAnsible
 主に開発環境等を整えたらいいなと
+[![Build Status](https://travis-ci.org/oomatomo/my-ansible.svg)](https://travis-ci.org/oomatomo/my-ansible)
 
 # Usage
 
